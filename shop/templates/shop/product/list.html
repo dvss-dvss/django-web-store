@@ -1,1 +1,56 @@
 {% extends "shop/base.html" %}
+
+{% block title %}
+  {% if category %}
+    {{ category.name }}
+  {% else %}
+    Каталог товарів
+  {% endif %}
+{% endblock  %}
+
+{% block content %}
+  <div class="row">
+
+    <aside class="col-xs-3">
+      <h4>Категорії</h4>
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url 'shop:product_list' %}" 
+              {% if category %} class="contrast" {% endif %}>
+              Усі товари
+            </a>
+          </li>
+          {% for c in categories %}
+            <li>
+              <a href="{{ c.get_absolute_url }}"
+                {% if category.slug != c.slug %} class="contrast" {% endif %}>
+                {{ c.name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="col-xs-9">
+      <h4>{% if category %}{{ category.name }}{% else %}Каталог товарів{% endif %}</h4>
+      {% for product in products %}
+        {% if forloop.counter0|divisibleby:"3" %}
+          <div class="grid">
+        {% endif %}
+          <article>
+            <h5>
+              <a href="{{ product.get_absolute_url}}">{{ product.name }}</a>
+            </h5>
+            <footer>{{ product.price }} ₴</footer>
+          </article>
+        {% if forloop.counter|divisibleby:"3" %}
+          </div>
+        {% endif %}
+      {% endfor %}
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}
