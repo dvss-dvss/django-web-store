@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 django = "*"
-pillow = "*"
 markdown = "*"
+pillow = "*"
 
 [dev-packages]
 
