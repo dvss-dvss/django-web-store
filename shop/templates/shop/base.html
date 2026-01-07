@@ -38,6 +38,7 @@
                   <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
                     <input type="submit" value="Вихід">
+                    <li><a href="{% url 'register' %}">Реєстрація</a></li>
                   </form>
                 </ul>
               </details>
