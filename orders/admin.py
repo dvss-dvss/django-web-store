@@ -3,6 +3,8 @@ import datetime as dt
 
 from django.contrib import admin
 from django.http import HttpResponse
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from .models import Order, OrderItem
 
@@ -36,6 +38,11 @@ class OrderItemInline(admin.TabularInline):
     raw_id_fields = ['product']
 
 
+def order_detail(obj):
+    url = reverse("orders:admin_order_detail", args=[obj.id])
+    return mark_safe(f'<a href="{url}">Перегляд</a>')
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     actions = [export_to_csv]
@@ -49,6 +56,7 @@ class OrderAdmin(admin.ModelAdmin):
         'paid',
         'created',
         'updated',
+        order_detail
     ]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
